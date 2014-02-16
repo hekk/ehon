@@ -24,11 +24,10 @@ module Ehon
   end
 
   def method_missing(symbol, *args)
-    return self.options[symbol] if respond_to?(symbol)
+    return read_attribute(symbol) if respond_to?(symbol)
     super
   end
 
-  private
   def read_attribute(symbol)
     self.options[symbol]
   end
@@ -57,7 +56,7 @@ module Ehon
       findeds = queries.map {|query|
         next self.contents[query] unless query.is_a?(Hash)
         self.contents.values.find {|instance|
-          query.all? {|key, value| instance.options[key] == value }
+          query.all? {|key, value| instance.read_attribute(key) == value }
         }
       }.compact
       queries.size == 1 ? findeds.first : findeds
