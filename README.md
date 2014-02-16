@@ -1,6 +1,7 @@
 
 # Ehon
 [![Build Status](https://travis-ci.org/hekk/ehon.png?branch=master)](https://travis-ci.org/hekk/ehon)
+[![Gem Version](https://badge.fury.io/rb/ehon.png)](http://badge.fury.io/rb/ehon)
 
 Ehon is a simple `enum` library.
 
