@@ -82,7 +82,7 @@ describe Ehon do
       end
 
       it "should has default option {key: 'value'}" do
-        expect(Item.default_options).to eq({key: 'value'})
+        expect(subject.default_options).to eq({key: 'value'})
       end
 
       it "instacne should respond to key and return 'value'" do
