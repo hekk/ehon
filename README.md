@@ -1,6 +1,7 @@
+
 # Ehon
 
-TODO: Write a gem description
+Ehon is a simple `enum` library.
 
 ## Installation
 
@@ -18,7 +19,47 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can create your enum class easily.
+
+```ruby
+class DeviceType
+  include Ehon
+
+  default user_agent_regexp: //
+
+  UNKNOWN = enum 0, name: 'unknown'
+  IOS     = enum 1, name: 'iOS',     user_agent_regexp: /(iPhone|iPad|iPod)/
+  ANDROID = enum 2, name: 'Android', user_agent_regexp: /Android/
+end
+```
+
+Using `DeviceType` class.
+
+```ruby
+DeviceType::IOS.id #=> 1
+DeviceType::ANDROID.user_agent_regexp #=> /Android/
+```
+
+Finding.
+
+```ruby
+DeviceType[1, 2] #=> [#<DeviceType:...(iOS)>, #<DeviceType:...(Android)>]
+DeviceType.find(name: 'iOS') #=> #<DeviceType:...(iOS)>
+```
+
+Custom method.
+
+```ruby
+class DeviceType
+  %w[iOS Android unknown].each do |name|
+    define_method :"#{name.downcase}?" do
+      self.name == name
+    end
+  end
+end
+
+DeviceTypel::IOS.ios? #=> true
+```
 
 ## Contributing
 
@@ -27,3 +68,4 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
