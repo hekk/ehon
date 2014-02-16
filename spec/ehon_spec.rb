@@ -108,6 +108,29 @@ describe Ehon do
         expect(@instance_without_block).to_not be_respond_to(:potion?)
       end
     end
+
+    context 'custom method' do
+      before do
+        class Item
+          def name
+            name  = read_attribute(:name)
+            value = read_attribute(:value)
+            "%s(%d)" % [name, value]
+          end
+        end
+        @instance = subject.page(1, name: 'potion', value: 5)
+      end
+
+      after do
+        class Item
+          remove_method :name
+        end
+      end
+
+      it 'should override name attribute' do
+        expect(@instance.name).to eq('potion(5)')
+      end
+    end
   end
 
   describe '#==(other)' do

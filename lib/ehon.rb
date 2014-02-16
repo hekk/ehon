@@ -28,6 +28,11 @@ module Ehon
     super
   end
 
+  private
+  def read_attribute(symbol)
+    self.options[symbol]
+  end
+
   module ClassMethods
     attr_accessor :contents, :default_options
 
