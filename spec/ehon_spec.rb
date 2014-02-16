@@ -274,10 +274,10 @@ describe Ehon do
     end
 
     context 'with id and query' do
-        it "find with `[1, {value: 10}]` should return item id `potion` and `high potion`" do
-          finded = subject.find([1, {value: 10}])
-          expect(finded.map(&:name)).to eq(['potion', 'high potion'])
-        end
+      it "find with `[1, {value: 10}]` should return item id `potion` and `high potion`" do
+        finded = subject.find([1, {value: 10}])
+        expect(finded.map(&:name)).to eq(['potion', 'high potion'])
+      end
     end
   end
 end
