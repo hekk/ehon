@@ -1,6 +1,6 @@
 
 # Ehon
-[![Build Status](https://secure.travis-ci.org/hekk/ehon.png?branch=master)](https://travis-ci.org/hekk/ehon)
+[![Build Status](https://travis-ci.org/hekk/ehon.png?branch=master)](https://travis-ci.org/hekk/ehon)
 
 Ehon is a simple `enum` library.
 
