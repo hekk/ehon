@@ -71,6 +71,22 @@ describe Ehon do
           end
         end
       end
+
+      context 'with string key hash' do
+        let(:name) { 'scroll' }
+
+        before do
+          @instance = subject.page(1, 'name' => name)
+        end
+
+        it 'should not be able to respond to name' do
+          expect(@instance).to_not be_respond_to(:name)
+        end
+
+        it 'should be able to fetch name through read_attribute' do
+          expect(@instance.read_attribute('name')).to eq(name)
+        end
+      end
     end
 
     context 'with default options' do
