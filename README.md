@@ -57,8 +57,11 @@ class DeviceType
     end
   end
 end
+```
 
+```ruby
 DeviceTypel::IOS.ios? #=> true
+DeviceTypel::IOS.android? #=> false
 ```
 
 ## Contributing
