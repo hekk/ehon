@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["tomohiro68@gmail.com"]
   spec.summary       = %q{Ehon is a simple `enum` library.}
   spec.description   = %q{Ehon is a simple `enum` library.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/hekk/ehon"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
