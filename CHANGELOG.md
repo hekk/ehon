@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Add multiple returning item support
+
 ## 0.1.2
 
 * Add create_{accessors,readers,writers}! method
