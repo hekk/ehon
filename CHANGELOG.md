@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Add create_{accessors,readers,writers}! method
+
 ## 0.1.1
 
 * Refactor internal code
