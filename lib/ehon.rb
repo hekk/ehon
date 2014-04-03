@@ -88,7 +88,7 @@ module Ehon
 
     def define_writer(symbol)
       class_eval do
-        define_method("#{symbol}=") {|value| self.options[symbol] = value }
+        define_method("#{symbol}=") {|value| @options[symbol] = value }
       end
     end
   end
