@@ -47,25 +47,11 @@ module Ehon
     end
 
     def create_readers!
-      options = self.contents.values.map {|e| e.options.keys }.flatten.uniq
-      class_eval do
-        options.each do |option|
-          define_method option do
-            read_attribute(option)
-          end
-        end
-      end
+      options.each {|option| define_reader option }
     end
 
     def create_writers!
-      options = self.contents.values.map {|e| e.options.keys }.flatten.uniq
-      class_eval do
-        options.each do |option|
-          define_method "#{option}=" do |value|
-            self.options[option] = value
-          end
-        end
-      end
+      options.each {|option| define_writer option }
     end
 
     def create_accessors!
@@ -88,5 +74,22 @@ module Ehon
       queries.size == 1 ? findeds.first : findeds
     end
     alias [] find
+
+    private
+    def options
+      self.contents.values.map {|e| e.options.keys }.flatten.uniq
+    end
+
+    def define_reader(symbol)
+      class_eval do
+        define_method(symbol) { read_attribute(symbol) }
+      end
+    end
+
+    def define_writer(symbol)
+      class_eval do
+        define_method("#{symbol}=") {|value| self.options[symbol] = value }
+      end
+    end
   end
 end
