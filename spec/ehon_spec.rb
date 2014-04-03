@@ -325,6 +325,13 @@ describe Ehon do
       Item.enum 1, name: 'test'
     end
 
+    after do
+      subject.class_eval do
+        remove_method :name  rescue nil
+        remove_method :name= rescue nil
+      end
+    end
+
     context 'create both' do
       before do
         subject.create_accessors!
@@ -344,12 +351,26 @@ describe Ehon do
         subject.create_readers!
       end
 
-      it 'has name attribute reader' do
+      it 'has name attribute readers' do
         expect{ subject.public_instance_method(:name) }.not_to raise_error
       end
 
       it 'does not have name= attribute writer' do
         expect { subject.public_instance_method(:name=) }.to raise_error
+      end
+    end
+
+    context 'create only writers' do
+      before do
+        subject.create_writers!
+      end
+
+      it 'does not have name attribute reader' do
+        expect{ subject.public_instance_method(:name) }.to raise_error
+      end
+
+      it 'has name= attribute writer' do
+        expect { subject.public_instance_method(:name=) }.not_to raise_error
       end
     end
   end

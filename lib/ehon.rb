@@ -57,8 +57,7 @@ module Ehon
       end
     end
 
-    def create_accessors!
-      create_readers!
+    def create_writers!
       options = self.contents.values.map {|e| e.options.keys }.flatten.uniq
       class_eval do
         options.each do |option|
@@ -67,6 +66,11 @@ module Ehon
           end
         end
       end
+    end
+
+    def create_accessors!
+      create_readers!
+      create_writers!
     end
 
     def all
