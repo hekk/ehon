@@ -319,4 +319,19 @@ describe Ehon do
       end
     end
   end
+
+  describe '.create_accessors!' do
+    before do
+      Item.enum 1, name: 'test'
+      Item.create_accessors!
+    end
+
+    it 'has name attribute reader' do
+      expect(Item.public_instance_method(:name)).not_to be_nil
+    end
+
+    it 'has name= attribute writer' do
+      expect(Item.public_instance_method(:name=)).not_to be_nil
+    end
+  end
 end
