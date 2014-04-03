@@ -339,10 +339,16 @@ describe Ehon do
 
       it 'has name attribute reader' do
         expect { subject.public_instance_method(:name) }.not_to raise_error
+        item = subject.find(1)
+        expect(item.name).to eq('test')
       end
 
       it 'has name= attribute writer' do
         expect { subject.public_instance_method(:name=) }.not_to raise_error
+        expect_name = 'cat'
+        item = subject.find(1)
+        item.name = expect_name
+        expect(item.name).to eq(expect_name)
       end
     end
 
@@ -371,6 +377,16 @@ describe Ehon do
 
       it 'has name= attribute writer' do
         expect { subject.public_instance_method(:name=) }.not_to raise_error
+      end
+    end
+
+    context 'duplicate define' do
+      before do
+        subject.create_accessors!
+      end
+
+      it 'does nothing' do
+        expect { subject.create_accessors! }.to_not raise_error
       end
     end
   end
