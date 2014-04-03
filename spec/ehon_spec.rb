@@ -320,18 +320,37 @@ describe Ehon do
     end
   end
 
-  describe '.create_accessors!' do
+  describe '.create_xxxs!' do
     before do
       Item.enum 1, name: 'test'
-      Item.create_accessors!
     end
 
-    it 'has name attribute reader' do
-      expect(Item.public_instance_method(:name)).not_to be_nil
+    context 'create both' do
+      before do
+        subject.create_accessors!
+      end
+
+      it 'has name attribute reader' do
+        expect { subject.public_instance_method(:name) }.not_to raise_error
+      end
+
+      it 'has name= attribute writer' do
+        expect { subject.public_instance_method(:name=) }.not_to raise_error
+      end
     end
 
-    it 'has name= attribute writer' do
-      expect(Item.public_instance_method(:name=)).not_to be_nil
+    context 'create only reader' do
+      before do
+        subject.create_readers!
+      end
+
+      it 'has name attribute reader' do
+        expect{ subject.public_instance_method(:name) }.not_to raise_error
+      end
+
+      it 'does not have name= attribute writer' do
+        expect { subject.public_instance_method(:name=) }.to raise_error
+      end
     end
   end
 end

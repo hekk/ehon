@@ -46,14 +46,22 @@ module Ehon
       self.default_options.merge!(options)
     end
 
-    def create_accessors!
+    def create_readers!
       options = self.contents.values.map {|e| e.options.keys }.flatten.uniq
       class_eval do
         options.each do |option|
           define_method option do
             read_attribute(option)
           end
+        end
+      end
+    end
 
+    def create_accessors!
+      create_readers!
+      options = self.contents.values.map {|e| e.options.keys }.flatten.uniq
+      class_eval do
+        options.each do |option|
           define_method "#{option}=" do |value|
             self.options[option] = value
           end
