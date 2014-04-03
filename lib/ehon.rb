@@ -35,13 +35,12 @@ module Ehon
   module ClassMethods
     attr_accessor :contents, :default_options
 
-    def page(id, options = {}, &block)
+    def enum(id, options = {}, &block)
       instance = new(id, options)
       instance.instance_eval(&block) if block_given?
       self.contents[id] = instance
       instance
     end
-    alias enum page
 
     def default(options = {})
       self.default_options.merge!(options)
@@ -64,4 +63,3 @@ module Ehon
     alias [] find
   end
 end
-

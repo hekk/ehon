@@ -18,9 +18,9 @@ describe Ehon do
     Item.default_options = {}
   end
 
-  describe '.page' do
+  describe '.enum' do
 
-    shared_examples_for 'a page' do
+    shared_examples_for 'a enum' do
       it 'should create one instance' do
         expect(subject.contents.size).to eq(1)
       end
@@ -34,22 +34,22 @@ describe Ehon do
       3.times do
         random_id = rand(10)
 
-        before { @instance = subject.page(expected_id) }
+        before { @instance = subject.enum(expected_id) }
 
         context "id is #{random_id}" do
           let(:expected_id) { random_id }
-          it_behaves_like "a page"
+          it_behaves_like "a enum"
         end
       end
     end
 
     context 'with options' do
-      before { @instance = subject.page(expected_id, expected_options) }
+      before { @instance = subject.enum(expected_id, expected_options) }
 
       let(:expected_id) { 3 }
       let(:expected_options) { {name: 'potion', value: 5} }
 
-      it_behaves_like "a page"
+      it_behaves_like "a enum"
 
       it 'instance options equals to argument with id: 3' do
         expect(@instance.options).to eq(expected_options.merge(id: 3))
@@ -76,7 +76,7 @@ describe Ehon do
         let(:name) { 'scroll' }
 
         before do
-          @instance = subject.page(1, 'name' => name)
+          @instance = subject.enum(1, 'name' => name)
         end
 
         it 'should not be able to respond to name' do
@@ -94,7 +94,7 @@ describe Ehon do
         class Item
           default key: 'value'
         end
-        @instance = subject.page(1)
+        @instance = subject.enum(1)
       end
 
       it "should has default option {key: 'value'}" do
@@ -108,12 +108,12 @@ describe Ehon do
 
     context 'with block' do
       before do
-        @instance_with_block = subject.page(1, name: 'potion') {
+        @instance_with_block = subject.enum(1, name: 'potion') {
           def potion?
             true
           end
         }
-        @instance_without_block = subject.page(2, name: 'pass')
+        @instance_without_block = subject.enum(2, name: 'pass')
       end
 
       it 'instance_with_block should respond to `potion?`' do
@@ -134,7 +134,7 @@ describe Ehon do
             "%s(%d)" % [name, value]
           end
         end
-        @instance = subject.page(1, name: 'potion', value: 5)
+        @instance = subject.enum(1, name: 'potion', value: 5)
       end
 
       after do
@@ -152,7 +152,7 @@ describe Ehon do
   describe '#==(other)' do
     context 'same class' do
       before do
-        @instance = Item.page(1)
+        @instance = Item.enum(1)
         @other    = @instance.dup
       end
       it 'instance should equal to cpy' do
@@ -165,8 +165,8 @@ describe Ehon do
         class Other
           include Ehon
         end
-        @instance = Item.page(1)
-        @other    = Other.page(1)
+        @instance = Item.enum(1)
+        @other    = Other.enum(1)
       end
       it "instance should not equal to other" do
         expect(@instance).to_not eq(@other)
@@ -200,12 +200,12 @@ describe Ehon do
 
   describe '.all' do
     before do
-      subject.page 1
-      subject.page 2
-      subject.page 3
+      subject.enum 1
+      subject.enum 2
+      subject.enum 3
     end
 
-    it 'should has 3 pages' do
+    it 'should has 3 enums' do
       expect(subject.all.size).to eq(3)
     end
 
@@ -217,9 +217,9 @@ describe Ehon do
 
   describe '.find(id_or_query)' do
     before do
-      subject.page 1,   name: 'potion',      value: 5
-      subject.page 2,   name: 'high potion', value: 10
-      subject.page '3', name: 'scroll'
+      subject.enum 1,   name: 'potion',      value: 5
+      subject.enum 2,   name: 'high potion', value: 10
+      subject.enum '3', name: 'scroll'
     end
 
     context 'with key' do
@@ -320,4 +320,3 @@ describe Ehon do
     end
   end
 end
-
