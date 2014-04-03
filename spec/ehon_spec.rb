@@ -337,6 +337,15 @@ describe Ehon do
         subject.create_accessors!
       end
 
+      it 'has id attribute reader' do
+        item = subject.find(1)
+        expect(item.id).to eq(1)
+      end
+
+      it 'does not have id attribute writer' do
+        expect { subject.public_instance_method(:id=) }.to raise_error
+      end
+
       it 'has name attribute reader' do
         expect { subject.public_instance_method(:name) }.not_to raise_error
         item = subject.find(1)

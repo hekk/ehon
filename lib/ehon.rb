@@ -87,6 +87,7 @@ module Ehon
     end
 
     def define_writer(symbol)
+      return if symbol == :id
       class_eval do
         define_method("#{symbol}=") {|value| @options[symbol] = value }
       end
