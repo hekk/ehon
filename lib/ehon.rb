@@ -46,6 +46,19 @@ module Ehon
       self.default_options.merge!(options)
     end
 
+    def create_readers!
+      options.each {|option| define_reader option }
+    end
+
+    def create_writers!
+      options.each {|option| define_writer option }
+    end
+
+    def create_accessors!
+      create_readers!
+      create_writers!
+    end
+
     def all
       self.contents.values
     end
@@ -61,5 +74,23 @@ module Ehon
       queries.size == 1 ? findeds.first : findeds
     end
     alias [] find
+
+    private
+    def options
+      self.contents.values.map {|e| e.options.keys }.flatten.uniq
+    end
+
+    def define_reader(symbol)
+      class_eval do
+        define_method(symbol) { read_attribute(symbol) }
+      end
+    end
+
+    def define_writer(symbol)
+      return if symbol == :id
+      class_eval do
+        define_method("#{symbol}=") {|value| @options[symbol] = value }
+      end
+    end
   end
 end

@@ -319,4 +319,84 @@ describe Ehon do
       end
     end
   end
+
+  describe '.create_xxxs!' do
+    before do
+      Item.enum 1, name: 'test'
+    end
+
+    after do
+      subject.class_eval do
+        remove_method :name  rescue nil
+        remove_method :name= rescue nil
+      end
+    end
+
+    context 'create both' do
+      before do
+        subject.create_accessors!
+      end
+
+      it 'has id attribute reader' do
+        item = subject.find(1)
+        expect(item.id).to eq(1)
+      end
+
+      it 'does not have id attribute writer' do
+        expect { subject.public_instance_method(:id=) }.to raise_error
+      end
+
+      it 'has name attribute reader' do
+        expect { subject.public_instance_method(:name) }.not_to raise_error
+        item = subject.find(1)
+        expect(item.name).to eq('test')
+      end
+
+      it 'has name= attribute writer' do
+        expect { subject.public_instance_method(:name=) }.not_to raise_error
+        expect_name = 'cat'
+        item = subject.find(1)
+        item.name = expect_name
+        expect(item.name).to eq(expect_name)
+      end
+    end
+
+    context 'create only reader' do
+      before do
+        subject.create_readers!
+      end
+
+      it 'has name attribute readers' do
+        expect{ subject.public_instance_method(:name) }.not_to raise_error
+      end
+
+      it 'does not have name= attribute writer' do
+        expect { subject.public_instance_method(:name=) }.to raise_error
+      end
+    end
+
+    context 'create only writers' do
+      before do
+        subject.create_writers!
+      end
+
+      it 'does not have name attribute reader' do
+        expect{ subject.public_instance_method(:name) }.to raise_error
+      end
+
+      it 'has name= attribute writer' do
+        expect { subject.public_instance_method(:name=) }.not_to raise_error
+      end
+    end
+
+    context 'duplicate define' do
+      before do
+        subject.create_accessors!
+      end
+
+      it 'does nothing' do
+        expect { subject.create_accessors! }.to_not raise_error
+      end
+    end
+  end
 end
