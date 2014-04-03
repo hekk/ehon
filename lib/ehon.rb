@@ -67,11 +67,16 @@ module Ehon
       queries.flatten!
       findeds = queries.map {|query|
         next self.contents[query] unless query.is_a?(Hash)
-        self.contents.values.find {|instance|
+        self.contents.values.select {|instance|
           query.all? {|key, value| instance.read_attribute(key) == value }
         }
-      }.compact
-      queries.size == 1 ? findeds.first : findeds
+      }.flatten.compact
+      single = if queries.any? {|query| query.is_a?(Hash) }
+        queries.size == 1 && findeds.size <= 1
+      else
+        queries.size == 1
+      end
+      single ? findeds.first : findeds
     end
     alias [] find
 

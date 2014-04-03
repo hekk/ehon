@@ -220,6 +220,7 @@ describe Ehon do
       subject.enum 1,   name: 'potion',      value: 5
       subject.enum 2,   name: 'high potion', value: 10
       subject.enum '3', name: 'scroll'
+      subject.enum 4,   name: 'stone',       value: 5
     end
 
     context 'with key' do
@@ -255,8 +256,8 @@ describe Ehon do
         expect(finded.map(&:name)).to eq(['potion', 'high potion'])
       end
 
-      it 'find with id [4, 8] should return empty array' do
-        finded = subject.find([4, 8])
+      it 'find with id [5, 8] should return empty array' do
+        finded = subject.find([5, 8])
         expect(finded).to eq([])
       end
     end
@@ -267,9 +268,9 @@ describe Ehon do
         expect(finded.id).to eq(2)
       end
 
-      it "find with `{value: 5}` should return item id 1" do
-        finded = subject.find(value: 5)
-        expect(finded.id).to eq(1)
+      it "find with `{value: 10}` should return item id 1" do
+        finded = subject.find(value: 10)
+        expect(finded.id).to eq(2)
       end
 
       it "find with `{id: '3'}` should return item id '3'" do
@@ -280,6 +281,11 @@ describe Ehon do
       it "find with `{name: 'food'}` should return nil" do
         finded = subject.find(name: 'food')
         expect(finded).to be_nil
+      end
+
+      it 'find with `{value: 5}` should return 2 items' do
+        finded = subject.find(value: 5)
+        expect(finded.size).to eq(2)
       end
 
       context 'AND search' do
