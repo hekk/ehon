@@ -43,28 +43,51 @@ DeviceType::IOS.id #=> 1
 DeviceType::ANDROID.user_agent_regexp #=> /Android/
 ```
 
-Finding.
+### Finding.
+
+You can find your item from enum class with following 2 way.
 
 ```ruby
 DeviceType[1, 2] #=> [#<DeviceType:...(iOS)>, #<DeviceType:...(Android)>]
 DeviceType.find(name: 'iOS') #=> #<DeviceType:...(iOS)>
 ```
 
-Custom method.
+and you also list all items using `#all` method
+
+```ruby
+DeviceType.all #=> [iOS, Android, unknown]
+```
+
+### Custom methods.
+
+You can define any method for your enum class.
 
 ```ruby
 class DeviceType
-  %w[iOS Android unknown].each do |name|
-    define_method :"#{name.downcase}?" do
-      self.name == name
-    end
+  def ios?
+    self.name == "iOS"
+  end
+
+  def android?
+    self.name == "Android"
+  end
+
+  def unknown?
+    self.name == "unknown"
+  end
+
+  def valid_user_agent?(user_agent)
+    !!(self.user_agent_regexp =~ user_agent)
   end
 end
 ```
 
 ```ruby
-DeviceTypel::IOS.ios? #=> true
-DeviceTypel::IOS.android? #=> false
+DeviceType::IOS.ios? #=> true
+DeviceType::IOS.android? #=> false
+
+user_agent = 'Mozilla/5.0 (Linux; Android 4.4.4; KYV33 Build/xxxx)'
+DeviceType::ANDROID.valid_user_agent?(user_agent) #=> true
 ```
 
 ## Contributing
