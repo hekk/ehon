@@ -12,7 +12,8 @@ module Ehon
   end
 
   def options
-    self.class.default_options.merge(@options)
+    @cached_options ||= self.class.default_options.merge(@options)
+    @cached_options.dup
   end
 
   def ==(other)
@@ -94,7 +95,10 @@ module Ehon
     def define_writer(symbol)
       return if symbol == :id
       class_eval do
-        define_method("#{symbol}=") {|value| @options[symbol] = value }
+        define_method("#{symbol}=") {|value|
+          @options[symbol] = value
+          @cached_options = nil
+        }
       end
     end
   end
