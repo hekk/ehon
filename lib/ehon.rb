@@ -12,8 +12,7 @@ module Ehon
   end
 
   def options
-    @cached_options ||= self.class.default_options.merge(@options)
-    @cached_options.dup
+    @cached_options ||= self.class.default_options.merge(@options).freeze
   end
 
   def ==(other)
